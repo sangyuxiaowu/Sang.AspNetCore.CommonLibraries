@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <Version>1.0.0</Version>
+	  <Authors>SangSQ(桑世强)</Authors>
+	  <Description>AspNet Web CommonLibraries.</Description>
+	  <PackageIcon>ico.png</PackageIcon>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	  <RepositoryUrl>https://github.com/sangyuxiaowu/Sang.AspNetCore.CommonLibraries</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/sangyuxiaowu/Sang.AspNetCore.CommonLibraries</PackageProjectUrl>
+	  <PackageTags></PackageTags>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+</Project>
