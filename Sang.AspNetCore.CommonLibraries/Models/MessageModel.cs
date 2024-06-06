@@ -39,11 +39,11 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <summary>
         /// 返回成功
         /// </summary>
-        /// <param name="msg">消息</param>
         /// <param name="data">数据</param>
+        /// <param name="msg">消息</param>
         /// <param name="trace">跟踪ID</param>
         /// <returns></returns>
-        public static MessageModel<T> Ok(string msg = "ok", T data = default!, string? trace = null)
+        public static MessageModel<T> Ok(T data = default!, string msg = "ok", string? trace = null)
         {
             return Message(0, msg, data, trace);
         }
@@ -51,11 +51,11 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <summary>
         /// 返回成功
         /// </summary>
-        /// <param name="msg">消息</param>
         /// <param name="data">数据</param>
+        /// <param name="msg">消息</param>
         /// <param name="trace">跟踪ID</param>
         /// <returns></returns>
-        public static MessageModel<T> Success(string msg = "ok", T data = default!, string? trace = null)
+        public static MessageModel<T> Success(T data = default!, string msg = "ok", string? trace = null)
         {
             return Message(0, msg, data, trace);
         }

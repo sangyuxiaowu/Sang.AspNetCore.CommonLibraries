@@ -24,9 +24,9 @@ namespace WebAppTest.Controllers
         }
 
         [HttpPost(Name = "PostWeatherForecast")]
-        public IEnumerable<string> Post(TestModel model)
+        public MessageModel<IEnumerable<string>> Post(TestModel model)
         {
-            return new string[] { "value1", "value2" };
+            return MessageModel < IEnumerable<string> >.Success(new string[] { "value1", "value2" });
         }
 
         [HttpGet("/")]
