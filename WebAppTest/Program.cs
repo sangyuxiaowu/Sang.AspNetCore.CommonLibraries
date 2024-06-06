@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Sang.AspNetCore.CommonLibraries;
 using Sang.AspNetCore.CommonLibraries.Filter;
 
 namespace WebAppTest
@@ -11,16 +12,17 @@ namespace WebAppTest
             var builder = WebApplication.CreateBuilder(args);
 
 
-            builder.Services.AddSingleton(new UnhandledExceptionFilterConfig
+            builder.Services.AddUnhandledExceptionFilter(config =>
             {
-                Status = 500,
-                StatusCode = 500
+                config.Status = 500;
+                config.StatusCode = 500;
             });
-            builder.Services.AddControllers(opt =>
+
+            builder.Services.AddModelValidationExceptionFilter(config =>
             {
-                opt.Filters.Add<UnhandledExceptionFilter>();
+                config.Status = 400;
+                config.StatusCode = 400;
             });
-            
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
