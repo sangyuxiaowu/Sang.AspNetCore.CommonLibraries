@@ -10,16 +10,6 @@ namespace Sang.AspNetCore.CommonLibraries.Models
     public class MessagePage
     {
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="title">页面标题</param>
-        public MessagePage(string title)
-        {
-            Title = title;
-        }
-
-
         private static readonly Regex MarkdownLinkRegex = new Regex(@"\[(.*?)\]\((.*?)\)", RegexOptions.Compiled);
 
         /// <summary>
@@ -57,7 +47,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             set
             {
                 if(string.IsNullOrEmpty(value)) return;
-                _desc = ReplaceMarkdownLinks(value);
+                _desc = $"<p class=\"weui-msg__desc\">{ReplaceMarkdownLinks(value)}</p>";
             }
         }
 
@@ -107,7 +97,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             set
             {
                 if (string.IsNullOrEmpty(value)) return;
-                tips_pre = ReplaceMarkdownLinks(value);
+                tips_pre = $"<div class=\"weui-msg__tips-area\"><p class=\"weui-msg__tips\">{ReplaceMarkdownLinks(value)}</p></div>";
             }
         }
 
@@ -116,31 +106,31 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// 按钮操作区，后方提示
         /// 可添加 Markdown 的 a 标签
         /// </summary>
-        public string Tips_Next
+        public string TipsNext
         {
             get { return tips_next; }
             set
             {
                 if (string.IsNullOrEmpty(value)) return;
-                tips_next = ReplaceMarkdownLinks(value);
+                tips_next = $"<div class=\"weui-msg__tips-area\"><p class=\"weui-msg__tips\">{ReplaceMarkdownLinks(value)}</p></div>";
             }
         }
 
         /// <summary>
         /// 操作按钮
         /// </summary>
-        public UrlInfo[] OprBtn = new UrlInfo[] { };
+        public List<UrlInfo> OprBtn { get; set; } = new ();
 
 
         /// <summary>
         /// 底部链接
         /// </summary>
-        public UrlInfo FooterLink = new("", "");
+        public UrlInfo? FooterLink { get; set; }
 
         /// <summary>
         /// 底部版权信息
         /// </summary>
-        public string CopyRight = "";
+        public string CopyRight { get; set; } = string.Empty;
 
         /// <summary>
         /// 返回消息页面 HTML 数据
@@ -160,7 +150,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             sb.Append("</div>");
             sb.Append(TipsPre);
             sb.Append(OprBtnMake());
-            sb.Append(Tips_Next);
+            sb.Append(TipsNext);
             sb.Append(FooterMake());
             sb.Append("</div></div></body></html>");
             return sb.ToString();
@@ -168,9 +158,9 @@ namespace Sang.AspNetCore.CommonLibraries.Models
 
         private string FooterMake()
         {
-            if (CopyRight == "" && FooterLink.Text == "") return "";
-            var link = FooterLink.Text == "" ? "" : $"<p class=\"weui-footer__links\"> <a href=\"{FooterLink.Url}\" class=\"weui-wa-hotarea weui-footer__link\">{FooterLink.Text}</a> </p>";
-            var cop = CopyRight == "" ? "" : $" <p class=\"weui-footer__text\">{CopyRight}</p>";
+            if (string.IsNullOrWhiteSpace(CopyRight) && FooterLink is null) return "";
+            var link = FooterLink?.Text == "" ? "" : $"<p class=\"weui-footer__links\"> <a href=\"{FooterLink?.Url}\" class=\"weui-wa-hotarea weui-footer__link\">{FooterLink?.Text}</a> </p>";
+            var cop = string.IsNullOrWhiteSpace(CopyRight) ? "" : $" <p class=\"weui-footer__text\">{CopyRight}</p>";
             return $"<div class=\"weui-msg__extra-area\"> <div class=\"weui-footer\"> {link}{cop} </div> </div>";
         }
 
@@ -180,7 +170,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <returns></returns>
         private string OprBtnMake()
         {
-            if (OprBtn.Length == 0) return "";
+            if (OprBtn.Count == 0) return "";
             StringBuilder sb = new StringBuilder();
             foreach (var it in OprBtn)
             {
@@ -285,7 +275,16 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <returns></returns>
         private string ReplaceMarkdownLinks(string input)
         {
-            return MarkdownLinkRegex.Replace(input, "<a href='$2'>$1</a>");
+            return MarkdownLinkRegex.Replace(input, "<a class=\"weui-wa-hotarea weui-link\" href='$2'>$1</a>");
+        }
+
+        /// <summary>
+        /// string 类型转换
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Render();
         }
     }
 

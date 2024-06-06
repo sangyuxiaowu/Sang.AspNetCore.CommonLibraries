@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
@@ -13,9 +13,30 @@
 	  <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	  <RepositoryUrl>https://github.com/sangyuxiaowu/Sang.AspNetCore.CommonLibraries</RepositoryUrl>
 	  <PackageProjectUrl>https://github.com/sangyuxiaowu/Sang.AspNetCore.CommonLibraries</PackageProjectUrl>
-	  <PackageTags></PackageTags>
+	  <PackageTags>exception handling;model validation;API response;HTML message page;AddUnhandledExceptionFilter;AddModelValidationExceptionFilter;MessageModel;MessagePage</PackageTags>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <OutputType>Library</OutputType>
   </PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\ico.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\LICENSE.txt">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+		<None Include="..\README_CN.md">
+		</None>
+	</ItemGroup>
 
 </Project>

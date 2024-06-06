@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Hosting;
 using Sang.AspNetCore.CommonLibraries.Models;
+using System.Diagnostics;
 
 namespace Sang.AspNetCore.CommonLibraries.Filter
 {
@@ -37,26 +39,12 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
                 Content = new MessageModel<string>
                 {
                     Status = _config.Status,
-                    Msg = _environment.IsDevelopment() ? context.Exception.ToString() : "服务端异常，请稍后重试！"
+                    Msg = _environment.IsDevelopment() ? context.Exception.ToString() : "服务端异常，请稍后重试！",
+                    TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
+                    
                 }.ToString()
             };
             context.ExceptionHandled = true;
         }
-    }
-
-    /// <summary>
-    /// 未知异常处理配置
-    /// </summary>
-    public class UnhandledExceptionFilterConfig
-    {
-        /// <summary>
-        /// 异常状态码设置
-        /// </summary>
-        public int Status { get; set; } = 500;
-        
-        /// <summary>
-        /// HTTP 状态码设置
-        /// </summary>
-        public int StatusCode { get; set; } = 500;
     }
 }
