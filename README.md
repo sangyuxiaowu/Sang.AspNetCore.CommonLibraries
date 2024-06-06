@@ -50,6 +50,7 @@ builder.Services.AddUnhandledExceptionFilter(config =>
     config.Status = 500;
     config.StatusCode = 500;
     config.WithTraceId = false; //Whether to return TraceId
+    config.Message = "Unhandled Exception";
 });
 ```
 

@@ -32,7 +32,7 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
                     Content = new MessageModel<IEnumerable<FieldError>>
                     {
                         Status = 400,
-                        Msg = _config.ModelValidationMessage,
+                        Msg = _config.Message ?? "Bad Request",
                         Data= errors,
                         TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
                     }.ToString()
