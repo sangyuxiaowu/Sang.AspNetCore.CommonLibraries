@@ -35,15 +35,17 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? TraceId { get; set; }
 
+
         /// <summary>
         /// 返回成功
         /// </summary>
         /// <param name="msg">消息</param>
+        /// <param name="data">数据</param>
         /// <param name="trace">跟踪ID</param>
         /// <returns></returns>
-        public static MessageModel<T> Ok(string msg = "ok", string? trace = null)
+        public static MessageModel<T> Ok(string msg = "ok", T data = default!, string? trace = null)
         {
-            return Message(0, msg, default!, trace);
+            return Message(0, msg, data, trace);
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <param name="data">数据</param>
         /// <param name="trace">跟踪ID</param>
         /// <returns></returns>
-        public static MessageModel<T> Ok(string msg, T data, string? trace = null)
+        public static MessageModel<T> Success(string msg = "ok", T data = default!, string? trace = null)
         {
             return Message(0, msg, data, trace);
         }
@@ -61,26 +63,29 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <summary>
         /// 返回失败
         /// </summary>
-        /// <param name="status">状态</param>
         /// <param name="msg">消息</param>
-        /// <param name="trace">跟踪ID</param>
-        /// <returns></returns>
-        public static MessageModel<T> Fail(int status, string msg, string? trace = null)
-        {
-            return Message(status, msg, default!, trace);
-        }
-        /// <summary>
-        /// 返回失败
-        /// </summary>
         /// <param name="status">状态</param>
-        /// <param name="msg">消息</param>
         /// <param name="data">数据</param>
         /// <param name="trace">跟踪ID</param>
         /// <returns></returns>
-        public static MessageModel<T> Fail(int status, string msg, T data, string? trace = null)
+        public static MessageModel<T> Fail(string msg, int status = -1, T data = default!, string? trace = null)
         {
             return Message(status, msg, data, trace);
         }
+
+        /// <summary>
+        /// 返回失败
+        /// </summary>
+        /// <param name="msg">消息</param>
+        /// <param name="status">状态</param>
+        /// <param name="data">数据</param>
+        /// <param name="trace">跟踪ID</param>
+        /// <returns></returns>
+        public static MessageModel<T> Error(string msg, int status = -1, T data = default!, string? trace = null)
+        {
+            return Message(status, msg, data, trace);
+        }
+
 
         /// <summary>
         /// 返回消息
