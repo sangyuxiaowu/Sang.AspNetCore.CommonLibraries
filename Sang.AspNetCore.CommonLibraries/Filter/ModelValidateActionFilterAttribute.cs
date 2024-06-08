@@ -27,7 +27,7 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
 
                 context.Result = new ContentResult
                 {
-                    StatusCode = 400,
+                    StatusCode = _config.StatusCode,
                     ContentType = "application/json;charset=utf-8",
                     Content = new MessageModel<IEnumerable<FieldError>>
                     {
