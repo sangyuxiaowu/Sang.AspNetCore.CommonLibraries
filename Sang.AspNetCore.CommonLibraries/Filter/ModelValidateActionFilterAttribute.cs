@@ -27,12 +27,12 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
 
                 context.Result = new ContentResult
                 {
-                    StatusCode = 400,
+                    StatusCode = _config.StatusCode,
                     ContentType = "application/json;charset=utf-8",
                     Content = new MessageModel<IEnumerable<FieldError>>
                     {
                         Status = 400,
-                        Msg = _config.ModelValidationMessage,
+                        Msg = _config.Message ?? "Bad Request",
                         Data= errors,
                         TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
                     }.ToString()

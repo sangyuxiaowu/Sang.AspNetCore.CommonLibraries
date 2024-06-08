@@ -19,6 +19,12 @@
         /// 是否返回跟踪 ID
         /// </summary>
         public bool WithTraceId { get; set; } = true;
+
+        /// <summary>
+        /// 通用异常信息
+        /// ModelValidationException 将使用 Data 属性返回详细内容
+        /// </summary>
+        public string Message { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -29,13 +35,6 @@
     /// <summary>
     /// 验证异常处理配置
     /// </summary>
-    public class ModelValidationExceptionFilterConfig : ExceptionFilterConfig {
-
-        /// <summary>
-        /// 验证的错误反馈信息
-        /// 通用反馈，详细内容将使用 Data 属性返回
-        /// </summary>
-        public string ModelValidationMessage { get; set; } = "Bad Request";
-    }
+    public class ModelValidationExceptionFilterConfig : ExceptionFilterConfig { }
 
 }
