@@ -8,12 +8,12 @@
         /// <summary>
         /// 异常状态码设置
         /// </summary>
-        public int Status { get; set; } = 500;
+        public virtual int Status { get; set; } = 500;
         
         /// <summary>
         /// HTTP 状态码设置
         /// </summary>
-        public int StatusCode { get; set; } = 500;
+        public virtual int StatusCode { get; set; } = 500;
 
         /// <summary>
         /// 是否返回跟踪 ID
@@ -24,7 +24,7 @@
         /// 通用异常信息
         /// ModelValidationException 将使用 Data 属性返回详细内容
         /// </summary>
-        public string Message { get; set; } = string.Empty;
+        public virtual string Message { get; set; } = "Server exception, please try again later!";
     }
 
     /// <summary>
@@ -35,6 +35,13 @@
     /// <summary>
     /// 验证异常处理配置
     /// </summary>
-    public class ModelValidationExceptionFilterConfig : ExceptionFilterConfig { }
+    public class ModelValidationExceptionFilterConfig : ExceptionFilterConfig {
+        ///<inheritdoc/>
+        public override int Status { get; set; } = 400;
+        ///<inheritdoc/>
+        public override int StatusCode { get; set; } = 400;
+        ///<inheritdoc/>
+        public override string Message { get; set; } = "Bad Request";
+    }
 
 }

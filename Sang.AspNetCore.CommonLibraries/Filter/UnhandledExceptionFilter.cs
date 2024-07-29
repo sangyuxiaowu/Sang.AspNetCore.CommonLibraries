@@ -39,7 +39,7 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
                 Content = new MessageModel<string>
                 {
                     Status = _config.Status,
-                    Msg = _environment.IsDevelopment() ? context.Exception.ToString() : (_config.Message ?? "Server exception, please try again later!"),
+                    Msg = _environment.IsDevelopment() ? context.Exception.ToString() : _config.Message,
                     TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
                     
                 }.ToString()
