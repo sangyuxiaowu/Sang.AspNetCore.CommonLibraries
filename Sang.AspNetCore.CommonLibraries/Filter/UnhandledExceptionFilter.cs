@@ -41,7 +41,7 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
                     Status = _config.Status,
                     Msg = _environment.IsDevelopment() ? context.Exception.ToString() : _config.Message,
                     TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
-                    
+
                 }.ToString()
             };
             context.ExceptionHandled = true;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sang.AspNetCore.CommonLibraries.Filter;
 using Sang.AspNetCore.CommonLibraries.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,7 +25,7 @@ namespace WebAppTest.Controllers
         [HttpPost(Name = "PostWeatherForecast")]
         public MessageModel<IEnumerable<string>> Post(TestModel model)
         {
-            return MessageModel < IEnumerable<string> >.Success(new string[] { "value1", "value2" });
+            return MessageModel<IEnumerable<string>>.Success(new string[] { "value1", "value2" });
         }
 
         [HttpGet("/")]
@@ -45,7 +44,7 @@ namespace WebAppTest.Controllers
                 ListUrl = new List<UrlInfo> { new("链接1", "javascript:"), new("链接2", "javascript:") },
                 TipsPre = "内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现[超链接支持](http://www.baidu.com)",
                 TipsNext = "内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现[超链接支持](http://www.baidu.com)",
-                OprBtn = new List<UrlInfo> { new("链接1", "javascript:"), new ("链接2", "javascript:", "default") },
+                OprBtn = new List<UrlInfo> { new("链接1", "javascript:"), new("链接2", "javascript:", "default") },
                 FooterLink = new UrlInfo("底部链接", "javascript:"),
                 CopyRight = "桑榆肖物 版权信息<br>© 2014-2021 Sang. All Rights Reserved."
             };
