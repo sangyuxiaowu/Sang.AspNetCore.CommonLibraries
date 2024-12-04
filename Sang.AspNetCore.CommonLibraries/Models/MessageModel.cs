@@ -21,6 +21,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// </summary>
         [JsonPropertyName("msg")]
         public string Msg { get; set; } = "";
+
         /// <summary>
         /// 返回数据集合
         /// </summary>
