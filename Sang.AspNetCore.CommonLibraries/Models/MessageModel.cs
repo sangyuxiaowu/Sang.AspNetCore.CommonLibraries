@@ -100,28 +100,6 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             return new MessageModel<T>() { Msg = msg, Data = data, Status = status, TraceId = trace };
         }
 
-
-        /// <summary>
-        /// 返回分页数据
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="totalCount"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="msg"></param>
-        /// <param name="trace"></param>
-        /// <returns></returns>
-        public static MessageModel<PagedResponse<T>> Page(IEnumerable<T> data, int totalCount, int pageIndex, int pageSize, string msg = "ok", string? trace = null)
-        {
-            return new MessageModel<PagedResponse<T>>()
-            {
-                Msg = msg,
-                Data = new PagedResponse<T>(data, totalCount, pageIndex, pageSize),
-                Status = 0,
-                TraceId = trace
-            };
-        }
-
         /// <summary>
         /// 转为 JSON 字符串
         /// </summary>
