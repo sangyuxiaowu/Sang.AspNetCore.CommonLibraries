@@ -42,6 +42,17 @@ public MessageModel<string> Get()
 }
 ```
 
+Paged return example:
+```csharp
+[HttpGet("/page")]
+public MessageModel<PagedResponse<string>> PageResponse()
+{
+    var data = new List<string> { "value1", "value2" };
+    var response = new PagedResponse<string>(data, data.Count, 1, 10);
+    return MessageModel<PagedResponse<string>>.Success(response);
+}
+```
+
 Add filters for unhandled exceptions and model validation failures:
 
 ```csharp
@@ -64,6 +75,69 @@ builder.Services.AddModelValidationExceptionFilter(config =>
     config.Message = "Model Validation Exception"; //Custom message
 });
 ```
+
+### Json Example
+
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": [
+    "value1",
+    "value2"
+  ]
+}
+```
+
+```json
+{
+  "status": 400,
+  "msg": "Bad Request",
+  "data": [
+    {
+      "field": "Age",
+      "err": [
+        "Age 1-100"
+      ]
+    },
+    {
+      "field": "Name",
+      "err": [
+        "Err info set"
+      ]
+    }
+  ],
+  "traceId": "00-6e7bf0a442c4787f3d17d2124c50017d-7f5bf597c46d289f-00"
+}
+```
+
+```json
+{
+  "status": 500,
+  "msg": "System.Exceptione",
+  "traceId": "00-7a0900c0de5accfbffd699081facf718-5ab7a3bcfc4fff6c-00"
+}
+```
+
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": {
+    "data": [
+      "value1",
+      "value2"
+    ],
+    "count": 2,
+    "page": 1,
+    "size": 10
+  }
+}
+```
+
+
 
 ### Generating HTML Message Pages
 

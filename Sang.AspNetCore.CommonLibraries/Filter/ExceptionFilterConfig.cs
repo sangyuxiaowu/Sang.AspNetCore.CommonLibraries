@@ -9,7 +9,7 @@
         /// 异常状态码设置
         /// </summary>
         public virtual int Status { get; set; } = 500;
-        
+
         /// <summary>
         /// HTTP 状态码设置
         /// </summary>
@@ -35,7 +35,8 @@
     /// <summary>
     /// 验证异常处理配置
     /// </summary>
-    public class ModelValidationExceptionFilterConfig : ExceptionFilterConfig {
+    public class ModelValidationExceptionFilterConfig : ExceptionFilterConfig
+    {
         ///<inheritdoc/>
         public override int Status { get; set; } = 400;
         ///<inheritdoc/>

@@ -33,7 +33,7 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
                     {
                         Status = _config.Status,
                         Msg = _config.Message,
-                        Data= errors,
+                        Data = errors,
                         TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
                     }.ToString()
                 };
