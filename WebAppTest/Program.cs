@@ -1,7 +1,4 @@
-
-using Microsoft.AspNetCore.Mvc;
 using Sang.AspNetCore.CommonLibraries;
-using Sang.AspNetCore.CommonLibraries.Filter;
 using Sang.AspNetCore.CommonLibraries.Models;
 
 namespace WebAppTest
@@ -34,7 +31,7 @@ namespace WebAppTest
             builder.Services.AddSwaggerGen();
 
 
-           
+
 
             var app = builder.Build();
 

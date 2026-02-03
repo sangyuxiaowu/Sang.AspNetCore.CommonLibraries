@@ -46,7 +46,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             get { return _desc; }
             set
             {
-                if(string.IsNullOrEmpty(value)) return;
+                if (string.IsNullOrEmpty(value)) return;
                 _desc = $"<p class=\"weui-msg__desc\">{ReplaceMarkdownLinks(value)}</p>";
             }
         }
@@ -119,7 +119,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
         /// <summary>
         /// 操作按钮
         /// </summary>
-        public List<UrlInfo> OprBtn { get; set; } = new ();
+        public List<UrlInfo> OprBtn { get; set; } = new();
 
 
         /// <summary>

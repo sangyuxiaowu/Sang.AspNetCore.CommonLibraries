@@ -27,6 +27,15 @@ dotnet add package Sang.AspNetCore.CommonLibraries
 
 ### General Consistent Return Model
 
+If the front end expects the return field name to be `code`, you can control the serialization output uniformly through `StatusFieldName` (default is `status`).
+
+```csharp
+// It is recommended to set it once at application startup
+MessageModel<string>.StatusFieldName = "code";
+```
+
+It is compatible with both `status` and `code` during deserialization.
+
 Change the return type of your API controller to MessageModel<T>, where T is the type of data you are returning. For example:
 
 ```csharp
@@ -42,14 +51,16 @@ public MessageModel<string> Get()
 }
 ```
 
-If the front end expects the return field name to be `code`, you can control the serialization output uniformly through `StatusFieldName` (default is `status`).
-
+Paged return example:
 ```csharp
-// It is recommended to set it once at application startup
-MessageModel<string>.StatusFieldName = "code";
+[HttpGet("/page")]
+public MessageModel<PagedResponse<string>> PageResponse()
+{
+    var data = new List<string> { "value1", "value2" };
+    var response = new PagedResponse<string>(data, data.Count, 1, 10);
+    return MessageModel<PagedResponse<string>>.Success(response);
+}
 ```
-
-It is compatible with both `status` and `code` during deserialization.
 
 Add filters for unhandled exceptions and model validation failures:
 
@@ -73,6 +84,69 @@ builder.Services.AddModelValidationExceptionFilter(config =>
     config.Message = "Model Validation Exception"; //Custom message
 });
 ```
+
+### Json Example
+
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": [
+    "value1",
+    "value2"
+  ]
+}
+```
+
+```json
+{
+  "status": 400,
+  "msg": "Bad Request",
+  "data": [
+    {
+      "field": "Age",
+      "err": [
+        "Age 1-100"
+      ]
+    },
+    {
+      "field": "Name",
+      "err": [
+        "Err info set"
+      ]
+    }
+  ],
+  "traceId": "00-6e7bf0a442c4787f3d17d2124c50017d-7f5bf597c46d289f-00"
+}
+```
+
+```json
+{
+  "status": 500,
+  "msg": "System.Exceptione",
+  "traceId": "00-7a0900c0de5accfbffd699081facf718-5ab7a3bcfc4fff6c-00"
+}
+```
+
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": {
+    "data": [
+      "value1",
+      "value2"
+    ],
+    "count": 2,
+    "page": 1,
+    "size": 10
+  }
+}
+```
+
+
 
 ### Generating HTML Message Pages
 

@@ -31,9 +31,9 @@ namespace Sang.AspNetCore.CommonLibraries.Filter
                     ContentType = "application/json;charset=utf-8",
                     Content = new MessageModel<IEnumerable<FieldError>>
                     {
-                        Status = 400,
-                        Msg = _config.Message ?? "Bad Request",
-                        Data= errors,
+                        Status = _config.Status,
+                        Msg = _config.Message,
+                        Data = errors,
                         TraceId = _config.WithTraceId ? (Activity.Current?.Id ?? context.HttpContext.TraceIdentifier) : null
                     }.ToString()
                 };

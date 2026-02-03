@@ -29,6 +29,15 @@ dotnet add package Sang.AspNetCore.CommonLibraries
 
 ### 通用的一致性返回模型
 
+如果前端约定返回字段名为 `code`，可以通过 `StatusFieldName` 统一控制序列化输出（默认 `status`）。
+
+```csharp
+// 建议在应用启动时设置一次
+MessageModel<string>.StatusFieldName = "code";
+```
+
+反序列化时同时兼容 `status` 和 `code`。
+
 修改你的 API 控制器的返回类型为 MessageModel<T>，其中 T 为你的返回数据类型。例如：
 
 ```csharp
@@ -44,14 +53,17 @@ public MessageModel<string> Get()
 }
 ```
 
-如果前端约定返回字段名为 `code`，可以通过 `StatusFieldName` 统一控制序列化输出（默认 `status`）。
+分页返回示例：
 
 ```csharp
-// 建议在应用启动时设置一次
-MessageModel<string>.StatusFieldName = "code";
+[HttpGet("/page")]
+public MessageModel<PagedResponse<string>> PageResponse()
+{
+    var data = new List<string> { "value1", "value2" };
+    var response = new PagedResponse<string>(data, data.Count, 1, 10);
+    return MessageModel<PagedResponse<string>>.Success(response);
+}
 ```
-
-反序列化时同时兼容 `status` 和 `code`。
 
 为未处理异常和模型验证失败添加过滤器：
 
@@ -75,6 +87,67 @@ builder.Services.AddModelValidationExceptionFilter(config =>
     config.Message = "Model Validation Exception"; //自定义消息
 });
 ```
+
+### 返回的 Json 示例
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": [
+    "value1",
+    "value2"
+  ]
+}
+```
+
+```json
+{
+  "status": 400,
+  "msg": "Bad Request",
+  "data": [
+    {
+      "field": "Age",
+      "err": [
+        "Age 1-100"
+      ]
+    },
+    {
+      "field": "Name",
+      "err": [
+        "Err info set"
+      ]
+    }
+  ],
+  "traceId": "00-6e7bf0a442c4787f3d17d2124c50017d-7f5bf597c46d289f-00"
+}
+```
+
+```json
+{
+  "status": 500,
+  "msg": "System.Exceptione",
+  "traceId": "00-7a0900c0de5accfbffd699081facf718-5ab7a3bcfc4fff6c-00"
+}
+```
+
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": {
+    "data": [
+      "value1",
+      "value2"
+    ],
+    "count": 2,
+    "page": 1,
+    "size": 10
+  }
+}
+```
+
 
 ### 生成 HTML 消息页面
 
