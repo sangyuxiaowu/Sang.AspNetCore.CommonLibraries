@@ -8,8 +8,20 @@ namespace Sang.AspNetCore.CommonLibraries.Models
     /// <summary>
     /// 通用返回信息类
     /// </summary>
+    [JsonConverter(typeof(MessageModelJsonConverterFactory))]
     public record class MessageModel<T>
     {
+        /// <summary>
+        /// 状态字段名（仅输出一个字段）
+        /// </summary>
+        public static string StatusFieldName
+        {
+            get => MessageModelStatusField.Name;
+            set => MessageModelStatusField.Name = value is "status" or "code"
+                ? value
+                : throw new ArgumentException("StatusFieldName only support 'status' or 'code'");
+        }
+
         /// <summary>
         /// 状态码
         /// </summary>
@@ -109,5 +121,10 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             var options = new JsonSerializerOptions { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) };
             return JsonSerializer.Serialize(this, options);
         }
+    }
+
+    internal static class MessageModelStatusField
+    {
+        public static string Name { get; set; } = "status";
     }
 }

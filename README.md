@@ -42,6 +42,15 @@ public MessageModel<string> Get()
 }
 ```
 
+If the front end expects the return field name to be `code`, you can control the serialization output uniformly through `StatusFieldName` (default is `status`).
+
+```csharp
+// It is recommended to set it once at application startup
+MessageModel<string>.StatusFieldName = "code";
+```
+
+It is compatible with both `status` and `code` during deserialization.
+
 Add filters for unhandled exceptions and model validation failures:
 
 ```csharp

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sang.AspNetCore.CommonLibraries;
 using Sang.AspNetCore.CommonLibraries.Filter;
+using Sang.AspNetCore.CommonLibraries.Models;
 
 namespace WebAppTest
 {
@@ -9,6 +10,9 @@ namespace WebAppTest
     {
         public static void Main(string[] args)
         {
+            MessageModel<string>.StatusFieldName = "code";
+
+
             var builder = WebApplication.CreateBuilder(args);
 
 

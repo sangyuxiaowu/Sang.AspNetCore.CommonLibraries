@@ -44,6 +44,15 @@ public MessageModel<string> Get()
 }
 ```
 
+如果前端约定返回字段名为 `code`，可以通过 `StatusFieldName` 统一控制序列化输出（默认 `status`）。
+
+```csharp
+// 建议在应用启动时设置一次
+MessageModel<string>.StatusFieldName = "code";
+```
+
+反序列化时同时兼容 `status` 和 `code`。
+
 为未处理异常和模型验证失败添加过滤器：
 
 ```csharp
@@ -100,4 +109,3 @@ public ContentResult Page()
         Content = page.Render()
     };
 }
-```
