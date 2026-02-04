@@ -1,10 +1,18 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Concurrent;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Sang.AspNetCore.CommonLibraries.Models
 {
-    internal sealed class MessageModelJsonConverterFactory : JsonConverterFactory
+    public sealed class MessageModelJsonConverterFactory : JsonConverterFactory
     {
+        private static readonly ConcurrentDictionary<Type, JsonConverter> Converters = new();
+
+        public static void Register<T>()
+        {
+            Converters.TryAdd(typeof(MessageModel<T>), new MessageModelJsonConverter<T>());
+        }
+
         public override bool CanConvert(Type typeToConvert)
         {
             return typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(MessageModel<>);
@@ -12,9 +20,12 @@ namespace Sang.AspNetCore.CommonLibraries.Models
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
-            var dataType = typeToConvert.GetGenericArguments()[0];
-            var converterType = typeof(MessageModelJsonConverter<>).MakeGenericType(dataType);
-            return (JsonConverter)Activator.CreateInstance(converterType)!;
+            if (Converters.TryGetValue(typeToConvert, out var converter))
+            {
+                return converter;
+            }
+
+            throw new NotSupportedException($"MessageModelJsonConverterFactory requires registration for {typeToConvert}.");
         }
     }
 
@@ -39,7 +50,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             T? data = default;
             if (root.TryGetProperty("data", out var dataElement) && dataElement.ValueKind != JsonValueKind.Null)
             {
-                data = dataElement.Deserialize<T>(options);
+                data = (T?)dataElement.Deserialize(options.GetTypeInfo(typeof(T)));
             }
 
             string? traceId = null;
@@ -60,7 +71,7 @@ namespace Sang.AspNetCore.CommonLibraries.Models
             if (value.Data is not null)
             {
                 writer.WritePropertyName("data");
-                JsonSerializer.Serialize(writer, value.Data, options);
+                JsonSerializer.Serialize(writer, value.Data, options.GetTypeInfo(typeof(T)));
             }
 
             if (!string.IsNullOrWhiteSpace(value.TraceId))

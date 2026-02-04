@@ -182,3 +182,37 @@ public ContentResult Page()
         Content = page.Render()
     };
 }
+```
+
+## AOT（Native）发布
+
+`MessageModel<T>` 使用自定义 `JsonConverter`。在 AOT 发布时，需要显式注册闭包泛型转换器，并为根类型提供源生成的 `JsonSerializerContext` 元数据。
+
+1. 启动时注册转换器：
+
+   ```csharp
+   MessageModelJsonConverterFactory.Register<WeatherForecast[]>();
+   ```
+
+2. 添加源生成 JSON 上下文，并包含 `MessageModel<T>` 与 `T`：
+
+   ```csharp
+   [JsonSerializable(typeof(MessageModel<WeatherForecast[]>))]
+   [JsonSerializable(typeof(WeatherForecast[]))]
+   internal partial class AppJsonContext : JsonSerializerContext
+   {
+   }
+   ```
+
+3. 配置 ASP.NET Core 使用该上下文：
+
+   ```csharp
+   builder.Services.ConfigureHttpJsonOptions(options =>
+   {
+       options.SerializerOptions.TypeInfoResolver = AppJsonContext.Default;
+   });
+   ```
+
+如果还会返回其他 `MessageModel<T>` 类型，请同步添加 `Register<T>()` 与 `JsonSerializable`。
+
+可以参考本仓库示例项目`WebAppAotTest`， [AOT 支持文档](https://learn.microsoft.com/zh-cn/dotnet/core/deploying/native-aot/?wt.mc_id=DT-MVP-5005195) 获取更多信息。
