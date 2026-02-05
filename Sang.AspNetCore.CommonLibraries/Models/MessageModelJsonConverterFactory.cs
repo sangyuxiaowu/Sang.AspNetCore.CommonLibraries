@@ -20,9 +20,25 @@ namespace Sang.AspNetCore.CommonLibraries.Models
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
+            // 先找手动注册的（AOT 路径）
             if (Converters.TryGetValue(typeToConvert, out var converter))
             {
                 return converter;
+            }
+
+            // 如果没注册，检查是否允许反射（非 AOT 路径）
+            try
+            {
+                var dataType = typeToConvert.GetGenericArguments()[0];
+                var converterType = typeof(MessageModelJsonConverter<>).MakeGenericType(dataType);
+                return (JsonConverter)Activator.CreateInstance(converterType)!;
+            }
+            catch (Exception ex)
+            {
+                //在 AOT 模式下，必须预先调用
+                throw new NotSupportedException("In AOT mode, you must pre-register the MessageModelJsonConverter for the type" +
+                    $" '{typeToConvert.GetGenericArguments()[0].Name}' by calling" +
+                    $" MessageModelJsonConverterFactory.Register<{typeToConvert.GetGenericArguments()[0].Name}>()", ex);
             }
 
             throw new NotSupportedException($"MessageModelJsonConverterFactory requires registration for {typeToConvert}.");

@@ -51,6 +51,16 @@ public MessageModel<string> Get()
 }
 ```
 
+Common examples:
+
+```csharp
+MessageModel<string>.Error("message required");
+MessageModel<string>.Fail("message required");
+MessageModel<string>.Ok();
+MessageModel<string>.Ok("okk");
+MessageModel<string>.Success("data");
+```
+
 Paged return example:
 ```csharp
 [HttpGet("/page")]

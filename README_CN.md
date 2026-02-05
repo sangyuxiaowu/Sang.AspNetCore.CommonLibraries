@@ -53,6 +53,17 @@ public MessageModel<string> Get()
 }
 ```
 
+常用示例：
+
+```csharp
+MessageModel<string>.Error("message required");
+MessageModel<string>.Fail("message required");
+MessageModel<string>.Ok();
+MessageModel<string>.Ok("okk");
+MessageModel<string>.Success("data");
+```
+
+
 分页返回示例：
 
 ```csharp
