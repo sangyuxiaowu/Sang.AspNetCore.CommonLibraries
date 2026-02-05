@@ -51,6 +51,16 @@ public MessageModel<string> Get()
 }
 ```
 
+Common examples:
+
+```csharp
+MessageModel<string>.Error("message required");
+MessageModel<string>.Fail("message required");
+MessageModel<string>.Ok();
+MessageModel<string>.Ok("okk");
+MessageModel<string>.Success("data");
+```
+
 Paged return example:
 ```csharp
 [HttpGet("/page")]
@@ -182,3 +192,36 @@ public ContentResult Page()
     };
 }
 ```
+
+## AOT (Native) publishing
+
+`MessageModel<T>` uses a custom `JsonConverter`. For AOT publishing, register the closed generic converter and provide source-generated `JsonSerializerContext` metadata for your root types.
+
+1. Register the converter at startup:
+
+```csharp
+MessageModelJsonConverterFactory.Register<WeatherForecast[]>();
+```
+
+2. Add a source-generated JSON context and include both `MessageModel<T>` and `T`:
+
+```csharp
+[JsonSerializable(typeof(MessageModel<WeatherForecast[]>))]
+[JsonSerializable(typeof(WeatherForecast[]))]
+internal partial class AppJsonContext : JsonSerializerContext
+{
+}
+```
+
+3. Configure ASP.NET Core to use the context:
+
+```csharp
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.TypeInfoResolver = AppJsonContext.Default;
+});
+```
+
+If you return additional `MessageModel<T>` types, add corresponding `Register<T>()` and `JsonSerializable` entries.
+
+You can refer to the example project `WebAppAotTest` in this repository and the [AOT support documentation](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/?wt.mc_id=DT-MVP-5005195) for more information on AOT support.

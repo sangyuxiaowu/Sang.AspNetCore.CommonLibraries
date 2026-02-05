@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34616.47
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sang.AspNetCore.CommonLibraries", "Sang.AspNetCore.CommonLibraries\Sang.AspNetCore.CommonLibraries.csproj", "{E5BBDDC2-3061-446C-ADD7-BAA14F3CC472}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppTest", "WebAppTest\WebAppTest.csproj", "{DE87C937-B966-4FDB-B00B-D41E94A3647D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppAotTest", "WebAppMiniTest\WebAppAotTest.csproj", "{0048730C-5B37-4A70-A6E1-F018CC291D5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DE87C937-B966-4FDB-B00B-D41E94A3647D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE87C937-B966-4FDB-B00B-D41E94A3647D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE87C937-B966-4FDB-B00B-D41E94A3647D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0048730C-5B37-4A70-A6E1-F018CC291D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0048730C-5B37-4A70-A6E1-F018CC291D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0048730C-5B37-4A70-A6E1-F018CC291D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0048730C-5B37-4A70-A6E1-F018CC291D5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
